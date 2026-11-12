@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ishita Gupta: data analyst and MS Business Analytics candidate at UCLA Anderson. ML models, data pipelines and dashboards with measured business impact.">
+<meta property="og:title" content="Ishita Gupta: Data Analytics &amp; AI Portfolio">
+<meta property="og:description" content="Projects in machine learning, experimentation, BI and data engineering at ixigo, Meril Life Sciences and Lohum Cleantech.">
+<meta property="og:type" content="website">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ishita Gupta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: results ledger. One column of sections; every project card ends in a before → after strip in mono. */
+:root {
+  --bg: #F4F6F9;
+  --surface: #FFFFFF;
+  --ink: #0F1A2B;
+  --muted: #566176;
+  --line: #DCE2EA;
+  --accent: #2446D6;
+  --accent-soft: #E8EDFF;
+  --on-accent: #FFFFFF;
+  --gain: #0A7558;
+  --gain-soft: #E2F3EC;
+  --font-display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius: 14px;
+  --maxw: 1120px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1019; --surface: #121A27; --ink: #E8ECF4; --muted: #9AA4B7; --line: #233049;
+    --accent: #8FA7FF; --accent-soft: #1A2448; --on-accent: #0B1019; --gain: #4FCB9F; --gain-soft: #10302A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1019; --surface: #121A27; --ink: #E8ECF4; --muted: #9AA4B7; --line: #233049;
+  --accent: #8FA7FF; --accent-soft: #1A2448; --on-accent: #0B1019; --gain: #4FCB9F; --gain-soft: #10302A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) {
+  .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+}
+
+/* ---------- top bar ---------- */
+.topbar { border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.mark { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+.mark span { color: var(--accent); }
+.topnav { display: flex; gap: 20px; flex-wrap: wrap; }
+.topnav a { color: var(--muted); text-decoration: none; font-size: 0.92rem; font-weight: 500; }
+.topnav a:hover { color: var(--ink); }
+
+/* ---------- hero ---------- */
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px; padding-block: 64px 56px; align-items: center; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+.hero h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.7rem, 7vw, 4.6rem); line-height: 0.98; letter-spacing: -0.035em; margin: 0 0 18px; text-wrap: balance; }
+.hero .role { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.2rem, 2.4vw, 1.5rem); line-height: 1.3; margin: 0 0 18px; color: var(--ink); text-wrap: balance; }
+.hero .role em { font-style: normal; color: var(--accent); }
+.hero .intro { color: var(--muted); max-width: 58ch; margin: 0 0 28px; }
+.contact-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px;
+  font: 600 0.92rem var(--font-body); text-decoration: none; cursor: pointer; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink);
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.email { font-family: var(--font-mono); font-size: 0.86rem; color: var(--ink); user-select: all; }
+.loc { font-size: 0.88rem; color: var(--muted); width: 100%; margin-top: 4px; }
+
+.ledger { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 22px; }
+.ledger h2 { font-family: var(--font-mono); font-weight: 500; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 14px 0 4px; }
+.ledger dl { margin: 0; }
+.ledger .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
+.ledger .row:first-child { border-top: 0; }
+.ledger dt { color: var(--muted); font-size: 0.9rem; line-height: 1.4; }
+.ledger dd { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.55rem; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ledger dd .arrow { color: var(--gain); font-weight: 500; }
+
+/* ---------- sections ---------- */
+section.block { padding-block: 56px; border-top: 1px solid var(--line); }
+.section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 24px; margin-bottom: 28px; }
+.section-head h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 2.3rem); letter-spacing: -0.025em; line-height: 1.1; margin: 0; }
+.section-head p { margin: 6px 0 0; color: var(--muted); max-width: 60ch; }
+
+/* ---------- filters ---------- */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter {
+  font: 500 0.88rem var(--font-body); padding: 7px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+}
+.filter:hover { color: var(--ink); border-color: var(--muted); }
+.filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.status { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); margin: 0 0 16px; min-height: 1.4em; }
+.status button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- work: grouped by company, one card anatomy ---------- */
+.work-groups { display: grid; gap: 44px; }
+.group-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 24px; padding-bottom: 12px; margin-bottom: 18px; border-bottom: 2px solid var(--ink); }
+.group-head h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.015em; margin: 0; line-height: 1.25; }
+.group-head h3 span { font-family: var(--font-body); font-weight: 400; font-size: 0.92rem; color: var(--muted); letter-spacing: 0; margin-left: 10px; }
+.group-head .meta { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; }
+.work-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.work {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px; display: flex; flex-direction: column; gap: 18px; min-width: 0;
+  transition: border-color .2s ease;
+}
+.work:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.card-top { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.tag { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); padding: 3px 8px; border-radius: 6px; }
+.work h4 { font-family: var(--font-display); font-weight: 700; font-size: 1.28rem; letter-spacing: -0.015em; line-height: 1.2; margin: 0; }
+.story { display: grid; gap: 12px; margin: 0; }
+.story dt { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 3px; }
+.story dd { margin: 0; font-size: 0.95rem; line-height: 1.55; }
+.results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: auto; }
+.result { background: var(--gain-soft); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.result .v { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.02em; line-height: 1.15; color: var(--gain); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.result .l { display: block; font-size: 0.8rem; color: var(--muted); line-height: 1.35; margin-top: 4px; }
+.work.wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px 36px; }
+.work.wide .card-top { grid-column: 1 / -1; }
+.work.wide .story { align-content: start; }
+.work.wide .side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.work.wide .results { grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+.work.wide .result { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 12px; align-items: baseline; }
+.work.wide .result .l { margin-top: 0; }
+.tools { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tools li { font-family: var(--font-mono); font-size: 0.74rem; padding: 3px 9px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); color: var(--ink); }
+
+/* ---------- experience ---------- */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 8px 32px; padding: 22px 0; border-top: 1px solid var(--line); }
+.timeline li:first-child { border-top: 0; padding-top: 0; }
+.when { font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.timeline h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.01em; margin: 0; line-height: 1.3; }
+.timeline h3 span { font-weight: 500; color: var(--muted); }
+.timeline p { margin: 6px 0 0; color: var(--muted); max-width: 70ch; font-size: 0.95rem; }
+
+/* ---------- toolkit ---------- */
+.kit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.kit-group { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; min-width: 0; }
+.kit-group h3 { font-family: var(--font-mono); font-weight: 500; font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; font: 500 0.88rem var(--font-body);
+  padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+}
+button.chip { cursor: pointer; }
+button.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip .n { font-family: var(--font-mono); font-size: 0.72rem; color: var(--on-accent); background: var(--accent); border-radius: 999px; min-width: 20px; height: 20px; display: inline-grid; place-items: center; padding: 0 6px; }
+.kit-note { font-size: 0.86rem; color: var(--muted); margin: 16px 0 0; }
+
+/* ---------- education + leadership ---------- */
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.card .where { font-family: var(--font-mono); font-size: 0.76rem; color: var(--muted); margin: 0; letter-spacing: 0.03em; }
+.card h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; margin: 0; line-height: 1.25; letter-spacing: -0.01em; }
+.card .degree { margin: 0; font-weight: 600; }
+.card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 0.93rem; display: grid; gap: 6px; }
+.card .stat { display: inline-block; font-family: var(--font-mono); font-size: 0.8rem; background: var(--accent-soft); color: var(--ink); border-radius: 6px; padding: 2px 8px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.lead-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.lead-list li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; min-width: 0; }
+.lead-list h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.08rem; margin: 0 0 4px; line-height: 1.3; }
+.lead-list .org { font-family: var(--font-mono); font-size: 0.76rem; color: var(--muted); margin: 0 0 8px; }
+.lead-list p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+
+/* ---------- contact ---------- */
+.contact { background: var(--ink); color: var(--bg); }
+.contact .wrap { padding-block: 64px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.contact h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -0.03em; line-height: 1.05; margin: 0 0 12px; text-wrap: balance; }
+.contact p { margin: 0; opacity: 0.8; max-width: 52ch; }
+.contact-lines { display: grid; gap: 12px; }
+.contact-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 18px; border: 1px solid color-mix(in srgb, var(--bg) 25%, transparent); border-radius: 12px; }
+.contact-line .label { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
+.contact-line .value { font-family: var(--font-mono); font-size: 0.92rem; color: var(--bg); user-select: all; overflow-wrap: anywhere; }
+.contact-line a.value { user-select: auto; text-decoration: underline; }
+.contact-line button { font: 600 0.82rem var(--font-body); padding: 6px 12px; border-radius: 999px; border: 0; background: var(--bg); color: var(--ink); cursor: pointer; }
+footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 860px) {
+  .hero .wrap, .contact .wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .hero .wrap { padding-block: 40px; }
+  .work-grid, .kit, .two-col, .lead-list { grid-template-columns: minmax(0, 1fr); }
+  .work.wide { grid-template-columns: minmax(0, 1fr); }
+  .timeline li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  section.block { padding-block: 44px; }
+}
+@media (max-width: 480px) {
+  .topnav { gap: 14px; }
+  .work { padding: 20px; }
+  .group-head h3 span { display: block; margin-left: 0; }
+  .work.wide .result { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .work.wide .result .l { margin-top: 4px; }
+  .ledger dd { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="mark" href="#top">IG<span>.</span></a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">MS Business Analytics · UCLA Anderson · Dec 2027</p>
+        <h1>Ishita Gupta</h1>
+        <p class="role">Data analyst building <em>ML models</em>, <em>data pipelines</em> and <em>dashboards</em> that teams act on.</p>
+        <p class="intro">Two years across travel-tech, medtech and cleantech. I've shipped a real-time scoring model serving 30M requests a day, an AI radiology product deployed into hospital workflows, and growth experiments that halved customer acquisition cost.</p>
+        <div class="contact-row">
+          <a class="btn primary" href="https://www.linkedin.com/in/ishita1911" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <button class="btn" type="button" id="copy-email-hero" data-copy="ishita.gupta.2027@anderson.ucla.edu">Copy email</button>
+          <span class="email">ishita.gupta.2027@anderson.ucla.edu</span>
+          <span class="loc">Los Angeles, CA · Open to relocation</span>
+        </div>
+      </div>
+
+      <aside class="ledger" aria-labelledby="ledger-title">
+        <h2 id="ledger-title">Impact, in numbers</h2>
+        <dl>
+          <div class="row"><dt>Annual revenue from a waitlist confirmation model at ixigo</dt><dd>~$1M</dd></div>
+          <div class="row"><dt>Customer acquisition cost after cashback experiments</dt><dd>$8 <span class="arrow">→</span> $4</dd></div>
+          <div class="row"><dt>Annual marketing savings from an LTV pipeline</dt><dd>~$400K</dd></div>
+          <div class="row"><dt>Chest X-rays processed by RadioIQ</dt><dd>300K+</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== WORK ===================== -->
+  <section class="block" id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>Selected work</h2>
+          <p>What I built, the tools I used, and what changed because of it.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" type="button" data-filter="ml" aria-pressed="false">Machine learning</button>
+          <button class="filter" type="button" data-filter="exp" aria-pressed="false">Experimentation</button>
+          <button class="filter" type="button" data-filter="bi" aria-pressed="false">Dashboards &amp; BI</button>
+          <button class="filter" type="button" data-filter="data" aria-pressed="false">Data engineering</button>
+        </div>
+      </div>
+      <p class="status" id="work-status" aria-live="polite">Showing all 8 projects</p>
+
+      <div class="work-groups">
+
+        <div class="group">
+          <div class="group-head">
+            <h3>ixigo <span>Travel-tech, 80M+ monthly users</span></h3>
+            <p class="meta">Data Analyst · May 2025 – Jun 2026</p>
+          </div>
+          <div class="work-grid">
+
+            <article class="work" data-cat="ml data" data-tools="Python|Dask|Gradient boosting">
+              <div class="card-top"><span class="tag">Machine learning</span><h4>Waitlist confirmation scoring</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Travelers on train waitlists couldn't tell whether their ticket would confirm.</dd></div>
+                <div><dt>What I built</dt><dd>A real-time GBDT model trained on terabytes of historical bookings with Dask, tuned for precision to keep false "will confirm" predictions low.</dd></div>
+              </dl>
+              <div class="results">
+                <div class="result"><span class="v">&lt;30 ms</span><span class="l">latency, down from 100 ms, at 30M requests/day</span></div>
+                <div class="result"><span class="v">~$1M</span><span class="l">annual revenue from a 4% booking uplift</span></div>
+              </div>
+              <ul class="tools"><li>Python</li><li>GBDT</li><li>Dask</li></ul>
+            </article>
+
+            <article class="work" data-cat="exp" data-tools="A/B testing|SQL|Python">
+              <div class="card-top"><span class="tag">Experimentation</span><h4>First-booking cashback experiments</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Winning first-time bookers was costing $8 per user.</dd></div>
+                <div><dt>What I built</dt><dd>Analysis of 5+ A/B tests on cashback amount, expiry and usage limits with Product and Growth, leading to a $1 cashback on a $12 average ticket.</dd></div>
+              </dl>
+              <div class="results">
+                <div class="result"><span class="v">$8 → $4</span><span class="l">customer acquisition cost</span></div>
+                <div class="result"><span class="v">+20%</span><span class="l">new-user bookings</span></div>
+              </div>
+              <ul class="tools"><li>A/B testing</li><li>SQL</li><li>Python</li></ul>
+            </article>
+
+            <article class="work" data-cat="data bi" data-tools="SQL|Python|DuckDB|Prefect|Streamlit|Cohort &amp; LTV analysis">
+              <div class="card-top"><span class="tag">Data engineering</span><h4>Unit economics &amp; LTV pipeline</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Marketing spend wasn't guided by cohort-level user value.</dd></div>
+                <div><dt>What I built</dt><dd>With Growth and Finance leadership, defined P&amp;L, retention-cohort and LTV metrics, then built a real-time pipeline and Streamlit dashboard so spend could be targeted by cohort.</dd></div>
+              </dl>
+              <div class="results">
+                <div class="result"><span class="v">~$400K</span><span class="l">annual marketing savings</span></div>
+                <div class="result"><span class="v">32M+</span><span class="l">transactions across 4.8M+ users</span></div>
+              </div>
+              <ul class="tools"><li>SQL</li><li>Python</li><li>DuckDB</li><li>Prefect</li><li>Streamlit</li></ul>
+            </article>
+
+            <article class="work" data-cat="bi data" data-tools="ClickHouse|CleverTap|QuickSight|Excel">
+              <div class="card-top"><span class="tag">Dashboards &amp; BI</span><h4>Funnel analytics automation</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Leadership reporting on search-to-booking conversion took about 3 hours of manual work.</dd></div>
+                <div><dt>What I built</dt><dd>Real-time funnel dashboards tracking conversion and drop-offs, plus daily auto-refreshing Excel and Slack reports.</dd></div>
+              </dl>
+              <div class="results">
+                <div class="result"><span class="v">3 hrs → 15 min</span><span class="l">reporting time</span></div>
+                <div class="result"><span class="v">~90%</span><span class="l">less time on reporting</span></div>
+              </div>
+              <ul class="tools"><li>ClickHouse</li><li>CleverTap</li><li>QuickSight</li><li>Excel</li><li>Slack</li></ul>
+            </article>
+
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-head">
+            <h3>Meril Life Sciences <span>Medtech, 150+ countries</span></h3>
+            <p class="meta">Data Analyst · Jan 2025 – May 2025</p>
+          </div>
+          <div class="work-grid">
+            <article class="work wide" data-cat="ml" data-tools="Python|FastAPI|AWS S3|Computer vision|Model explainability">
+              <div class="card-top"><span class="tag">Machine learning</span><h4>RadioIQ: AI decision support for radiology</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Radiology teams needed AI support for chest X-ray reads, and clinicians were hesitant to trust predictions they couldn't see the reasoning behind.</dd></div>
+                <div><dt>What I built</dt><dd>A pipeline over 300K+ DICOM chest X-rays (CLAHE, bone suppression) using RT-DETR, PSPNet and ResNet50 to detect and score 14 thoracic abnormalities. A Grad-CAM++ layer shows the region behind each prediction. Productionized with FastAPI and AWS S3 for hospital workflow integration.</dd></div>
+              </dl>
+              <div class="side">
+                <div class="results">
+                  <div class="result"><span class="v">94%</span><span class="l">accuracy across 14 abnormalities</span></div>
+                  <div class="result"><span class="v">&gt;92% / &gt;94%</span><span class="l">sensitivity / specificity</span></div>
+                  <div class="result"><span class="v">~$40K</span><span class="l">per 3-year enterprise contract</span></div>
+                </div>
+                <ul class="tools"><li>Python</li><li>RT-DETR</li><li>PSPNet</li><li>ResNet50</li><li>Grad-CAM++</li><li>FastAPI</li><li>AWS S3</li></ul>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-head">
+            <h3>Lohum Cleantech <span>Sustainable critical minerals</span></h3>
+            <p class="meta">Business Analyst Intern · Jun 2024 – Nov 2024</p>
+          </div>
+          <div class="work-grid">
+
+            <article class="work" data-cat="ml" data-tools="Python|NLP sentiment|Time-series forecasting">
+              <div class="card-top"><span class="tag">Machine learning</span><h4>Critical metal price forecasting</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Procurement needed better forecasts for volatile cobalt and nickel prices.</dd></div>
+                <div><dt>What I built</dt><dd>A forecast on 5+ years of price history, adding NLP sentiment from news articles and impact-lag features that capture how news reaches prices with a delay.</dd></div>
+              </dl>
+              <div class="results">
+                <div class="result"><span class="v">−8%</span><span class="l">forecast error</span></div>
+                <div class="result"><span class="v">10K+</span><span class="l">news articles scored for sentiment</span></div>
+              </div>
+              <ul class="tools"><li>Python</li><li>NLP</li><li>Time series</li></ul>
+            </article>
+
+            <article class="work" data-cat="bi data" data-tools="Power BI|SQL Server|SQL">
+              <div class="card-top"><span class="tag">Dashboards &amp; BI</span><h4>Lithium-ion battery trade analytics</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Market and supplier signals were buried in large import-export datasets.</dd></div>
+                <div><dt>What I built</dt><dd>A Power BI dashboard with automated SQL Server ingestion, so Procurement and Strategy could track market and supplier trends in one place.</dd></div>
+              </dl>
+              <div class="results">
+                <div class="result"><span class="v">100K+</span><span class="l">import-export records analyzed</span></div>
+                <div class="result"><span class="v">Automated</span><span class="l">data ingestion from SQL Server</span></div>
+              </div>
+              <ul class="tools"><li>Power BI</li><li>SQL Server</li><li>SQL</li></ul>
+            </article>
+
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-head">
+            <h3>Independent project <span>Agentic AI</span></h3>
+            <p class="meta">May 2025</p>
+          </div>
+          <div class="work-grid">
+            <article class="work wide" data-cat="ml" data-tools="Python|LangGraph|Computer vision|Agentic AI">
+              <div class="card-top"><span class="tag">Machine learning</span><h4>Chest X-ray diagnosis chatbot</h4></div>
+              <dl class="story">
+                <div><dt>Problem</dt><dd>Model outputs for chest X-rays are hard to use on their own; users need contextual, step-by-step interpretation.</dd></div>
+                <div><dt>What I built</dt><dd>An agentic chatbot combining a fine-tuned DenseNet121 classifier and an RT-DETR detector, orchestrated with LangGraph and multi-turn memory.</dd></div>
+              </dl>
+              <div class="side">
+                <div class="results">
+                  <div class="result"><span class="v">12</span><span class="l">thoracic pathologies classified</span></div>
+                  <div class="result"><span class="v">2 models</span><span class="l">classification + detection in one agent</span></div>
+                  <div class="result"><span class="v">Multi-turn</span><span class="l">conversational memory</span></div>
+                </div>
+                <ul class="tools"><li>Python</li><li>DenseNet121</li><li>RT-DETR</li><li>LangGraph</li></ul>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EXPERIENCE ===================== -->
+  <section class="block" id="experience">
+    <div class="wrap">
+      <div class="section-head">
+        <div><h2>Experience</h2></div>
+      </div>
+      <ol class="timeline">
+        <li>
+          <div class="when">May 2025 – Jun 2026</div>
+          <div>
+            <h3>Data Analyst <span>· ixigo, Gurgaon</span></h3>
+            <p>Publicly listed travel-tech platform with 80M+ monthly active users. Built real-time ML scoring, unit economics and LTV tracking, growth experiments and automated funnel reporting.</p>
+          </div>
+        </li>
+        <li>
+          <div class="when">Jan 2025 – May 2025</div>
+          <div>
+            <h3>Data Analyst <span>· Meril Life Sciences, Kanpur</span></h3>
+            <p>Global medtech company serving 150+ countries. Built and productionized RadioIQ, an explainable AI decision-support system for radiology.</p>
+          </div>
+        </li>
+        <li>
+          <div class="when">Jun 2024 – Nov 2024</div>
+          <div>
+            <h3>Business Analyst Intern <span>· Lohum Cleantech, Noida</span></h3>
+            <p>India's largest sustainable critical-minerals producer. Price forecasting with news sentiment and trade analytics for the Procurement and Strategy teams.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== TOOLKIT ===================== -->
+  <section class="block" id="toolkit">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>Toolkit</h2>
+          <p>Tools with a number are used in the projects above. Select one to see where.</p>
+        </div>
+      </div>
+      <div class="kit">
+        <div class="kit-group">
+          <h3>Languages &amp; ML</h3>
+          <div class="chips">
+            <span class="chip" data-tool="Python">Python</span>
+            <span class="chip" data-tool="SQL">SQL</span>
+            <span class="chip" data-tool="DAX">DAX</span>
+            <span class="chip" data-tool="MATLAB">MATLAB</span>
+            <span class="chip" data-tool="scikit-learn">scikit-learn</span>
+            <span class="chip" data-tool="PyTorch">PyTorch</span>
+            <span class="chip" data-tool="FastAPI">FastAPI</span>
+            <span class="chip" data-tool="Prefect">Prefect</span>
+            <span class="chip" data-tool="Dask">Dask</span>
+            <span class="chip" data-tool="LangGraph">LangGraph</span>
+          </div>
+        </div>
+        <div class="kit-group">
+          <h3>Analytics &amp; BI</h3>
+          <div class="chips">
+            <span class="chip" data-tool="Power BI">Power BI</span>
+            <span class="chip" data-tool="Tableau">Tableau</span>
+            <span class="chip" data-tool="Looker Studio">Looker Studio</span>
+            <span class="chip" data-tool="QuickSight">QuickSight</span>
+            <span class="chip" data-tool="Metabase">Metabase</span>
+            <span class="chip" data-tool="Streamlit">Streamlit</span>
+            <span class="chip" data-tool="CleverTap">CleverTap</span>
+            <span class="chip" data-tool="Firebase">Firebase</span>
+            <span class="chip" data-tool="Excel">Excel</span>
+          </div>
+        </div>
+        <div class="kit-group">
+          <h3>Cloud &amp; data platforms</h3>
+          <div class="chips">
+            <span class="chip" data-tool="AWS S3">AWS (EC2, S3, SageMaker)</span>
+            <span class="chip" data-tool="BigQuery">GCP BigQuery</span>
+            <span class="chip" data-tool="ClickHouse">ClickHouse</span>
+            <span class="chip" data-tool="DuckDB">DuckDB</span>
+            <span class="chip" data-tool="SQL Server">SQL Server</span>
+            <span class="chip" data-tool="PostgreSQL">PostgreSQL</span>
+            <span class="chip" data-tool="MySQL">MySQL</span>
+            <span class="chip" data-tool="Docker">Docker</span>
+            <span class="chip" data-tool="GitLab">GitLab</span>
+            <span class="chip" data-tool="Postman">Postman</span>
+          </div>
+        </div>
+        <div class="kit-group">
+          <h3>Methods</h3>
+          <div class="chips">
+            <span class="chip" data-tool="A/B testing">A/B testing</span>
+            <span class="chip" data-tool="Cohort &amp; LTV analysis">Cohort &amp; LTV analysis</span>
+            <span class="chip" data-tool="Gradient boosting">Gradient boosting</span>
+            <span class="chip" data-tool="Computer vision">Computer vision</span>
+            <span class="chip" data-tool="Model explainability">Model explainability</span>
+            <span class="chip" data-tool="NLP sentiment">NLP sentiment</span>
+            <span class="chip" data-tool="Time-series forecasting">Time-series forecasting</span>
+            <span class="chip" data-tool="Agentic AI">Agentic AI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EDUCATION ===================== -->
+  <section class="block" id="education">
+    <div class="wrap">
+      <div class="section-head">
+        <div><h2>Education</h2></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <p class="where">Los Angeles, CA · Expected Dec 2027</p>
+          <h3>UCLA Anderson School of Management</h3>
+          <p class="degree">Master of Science in Business Analytics (STEM)</p>
+          <div class="stats"><span class="stat">GRE 340/340</span></div>
+          <ul>
+            <li>Coursework: Machine Learning for Decision Making, Predictive Models &amp; Data Analytics, Optimization, Healthcare Analytics, Customer Analytics, Operations Analytics, Data Management, Product Management</li>
+            <li>Director of Marketing, South Asian Business Association · Member, Technology Business Association</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="where">Delhi NCR, India · Aug 2020 – May 2024</p>
+          <h3>Shiv Nadar Institute of Eminence</h3>
+          <p class="degree">B.Tech, Chemical Engineering · Minor in Business Management</p>
+          <div class="stats"><span class="stat">GPA 3.72/4.00 (WES)</span></div>
+          <ul>
+            <li>Coursework: Big Data Modelling &amp; Management, Probability &amp; Statistics, Numerical Methods, Business Modelling in Excel, Blockchain Business Applications, Advanced Strategic Management</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEADERSHIP ===================== -->
+  <section class="block" id="leadership">
+    <div class="wrap">
+      <div class="section-head">
+        <div><h2>Leadership &amp; volunteering</h2></div>
+      </div>
+      <ul class="lead-list">
+        <li>
+          <h3>Director General</h3>
+          <p class="org">Cawnpore Consonance MUN</p>
+          <p>Planned and ran a 3-day Model UN for 200+ delegates, managing 5 committees, sponsor acquisition, logistics and editorial operations.</p>
+        </li>
+        <li>
+          <h3>Lead Volunteer</h3>
+          <p class="org">BasoIndia (NGO)</p>
+          <p>Organized 5+ medical awareness camps in underserved areas, helping 200+ residents access free doctor consultations, nutritional aid and government healthcare schemes.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div>
+      <h2>Looking for data analytics and AI roles.</h2>
+      <p>I like problems where a model or a dashboard changes a real decision. If your team works on those, I'd be glad to talk.</p>
+    </div>
+    <div class="contact-lines">
+      <div class="contact-line">
+        <div>
+          <div class="label">Email</div>
+          <div class="value" id="email-value">ishita.gupta.2027@anderson.ucla.edu</div>
+        </div>
+        <button type="button" id="copy-email-footer" data-copy="ishita.gupta.2027@anderson.ucla.edu">Copy</button>
+      </div>
+      <div class="contact-line">
+        <div>
+          <div class="label">LinkedIn</div>
+          <a class="value" href="https://www.linkedin.com/in/ishita1911" target="_blank" rel="noopener">linkedin.com/in/ishita1911</a>
+        </div>
+      </div>
+      <div class="contact-line">
+        <div>
+          <div class="label">Based in</div>
+          <div class="value">Los Angeles · open to relocation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="foot">
+  <div class="wrap">Ishita Gupta · MS Business Analytics, UCLA Anderson</div>
+</footer>
+
+<script>
+(function () {
+  const cards = Array.from(document.querySelectorAll('.work'));
+  const filters = Array.from(document.querySelectorAll('.filter'));
+  const status = document.getElementById('work-status');
+  const labels = { all: 'all', ml: 'machine learning', exp: 'experimentation', bi: 'dashboards & BI', data: 'data engineering' };
+  const toolsOf = (card) => (card.dataset.tools || '').split('|').map((t) => t.trim()).filter(Boolean);
+
+  function setStatus(count, text, clearable) {
+    status.textContent = '';
+    status.append(document.createTextNode(text.replace('{n}', count) + (clearable ? ' · ' : '')));
+    if (clearable) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = 'Show all';
+      b.addEventListener('click', () => applyCategory('all'));
+      status.append(b);
+    }
+  }
+
+  function applyCategory(cat) {
+    let n = 0;
+    cards.forEach((c) => {
+      const show = cat === 'all' || (c.dataset.cat || '').split(' ').includes(cat);
+      c.hidden = !show;
+      if (show) n++;
+    });
+    filters.forEach((f) => f.setAttribute('aria-pressed', String(f.dataset.filter === cat)));
+    syncGroups();
+    if (cat === 'all') setStatus(n, 'Showing all {n} projects', false);
+    else setStatus(n, '{n} ' + (n === 1 ? 'project' : 'projects') + ' in ' + labels[cat], true);
+  }
+
+  function applyTool(tool) {
+    let n = 0;
+    cards.forEach((c) => {
+      const show = toolsOf(c).includes(tool);
+      c.hidden = !show;
+      if (show) n++;
+    });
+    filters.forEach((f) => f.setAttribute('aria-pressed', 'false'));
+    syncGroups();
+    setStatus(n, '{n} ' + (n === 1 ? 'project uses ' : 'projects use ') + tool, true);
+    document.getElementById('work').scrollIntoView({ block: 'start' });
+  }
+
+  function syncGroups() {
+    document.querySelectorAll('.group').forEach((g) => {
+      g.hidden = !g.querySelector('.work:not([hidden])');
+    });
+  }
+
+  filters.forEach((f) => f.addEventListener('click', () => applyCategory(f.dataset.filter)));
+
+  // Turn toolkit chips that appear in projects into buttons with a usage count.
+  document.querySelectorAll('.chip[data-tool]').forEach((chip) => {
+    const tool = chip.dataset.tool;
+    const count = cards.filter((c) => toolsOf(c).includes(tool)).length;
+    if (!count) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip';
+    btn.dataset.tool = tool;
+    btn.setAttribute('aria-label', chip.textContent + ', used in ' + count + (count === 1 ? ' project' : ' projects'));
+    btn.append(document.createTextNode(chip.textContent));
+    const badge = document.createElement('span');
+    badge.className = 'n';
+    badge.textContent = count;
+    btn.append(badge);
+    btn.addEventListener('click', () => applyTool(tool));
+    chip.replaceWith(btn);
+  });
+
+  // Copy email buttons
+  document.querySelectorAll('[data-copy]').forEach((btn) => {
+    const original = btn.textContent;
+    btn.addEventListener('click', () => {
+      const text = btn.dataset.copy;
+      const done = () => { btn.textContent = 'Copied'; setTimeout(() => { btn.textContent = original; }, 1600); };
+      const fallback = () => {
+        const el = document.getElementById('email-value');
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        btn.textContent = 'Selected, press Ctrl/Cmd+C';
+        setTimeout(() => { btn.textContent = original; }, 2400);
+      };
+      try {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } catch (e) { fallback(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
