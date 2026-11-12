@@ -220,14 +220,45 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
 
 /* ---------- motion ---------- */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.hero { position: relative; overflow: hidden; }
+.hero { position: relative; overflow: hidden; isolation: isolate; }
+.hero::before, .hero::after {
+  content: ""; position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; filter: blur(60px);
+}
+.hero::before { width: 520px; height: 520px; left: -120px; top: -160px; background: color-mix(in srgb, var(--accent) 26%, transparent); }
+.hero::after { width: 460px; height: 460px; right: -80px; bottom: -200px; background: color-mix(in srgb, var(--gain) 22%, transparent); }
+@keyframes drift-a { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(260px, 90px) scale(1.15); } 100% { transform: translate(80px, 180px) scale(.9); } }
+@keyframes drift-b { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-280px, -120px) scale(1.2); } 100% { transform: translate(-60px, -40px) scale(.95); } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero::before { animation: drift-a 16s ease-in-out infinite alternate; }
+  .hero::after { animation: drift-b 19s ease-in-out infinite alternate; }
+}
+.caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 3px; vertical-align: -0.12em; background: var(--accent); }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) { .caret { animation: blink 1s steps(1) infinite; } }
+
+/* skills ticker */
+.ticker { border-top: 1px solid var(--line); overflow: hidden; padding-block: 16px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.ticker-track { display: flex; width: max-content; gap: 0; }
+.ticker ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; padding-right: 12px; }
+.ticker li { font-family: var(--font-mono); font-size: 0.85rem; white-space: nowrap; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.ticker li.hl { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+@keyframes ticker { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-track { animation: ticker 45s linear infinite; }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker { -webkit-mask-image: none; mask-image: none; }
+  .ticker-track { width: auto; }
+  .ticker ul { flex-wrap: wrap; justify-content: center; }
+  .ticker ul[aria-hidden="true"] { display: none; }
+}
 .hero-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
   -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
 .hero .wrap { position: relative; z-index: 1; }
 .rotator { display: inline-block; color: var(--accent); white-space: nowrap; }
-.rotator .word { display: inline-block; transition: transform .45s cubic-bezier(.2,.7,.2,1), opacity .45s ease; }
-.rotator .word.out { transform: translateY(-0.45em); opacity: 0; }
-.rotator .word.in { transform: translateY(0.45em); opacity: 0; transition: none; }
+.rotator .word { display: inline; }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: no-preference) {
@@ -243,7 +274,7 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
   .ledger .row:nth-child(2) { animation-delay: .55s; }
   .ledger .row:nth-child(3) { animation-delay: .65s; }
   .ledger .row:nth-child(4) { animation-delay: .75s; }
-  .rv { translate: 0 28px; opacity: .35; transition: translate .8s cubic-bezier(.2,.7,.2,1), opacity .8s ease; transition-delay: var(--d, 0s); }
+  .rv { translate: 0 44px; opacity: .08; transition: translate .8s cubic-bezier(.2,.7,.2,1), opacity .8s ease; transition-delay: var(--d, 0s); }
   .rv.in { translate: 0 0; opacity: 1; }
   .work.pop { animation: pop .45s cubic-bezier(.2,.7,.2,1) both; }
 }
@@ -309,7 +340,7 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
       <div>
         <p class="eyebrow">MS Business Analytics · UCLA Anderson · Dec 2027</p>
         <h1>Ishita Gupta</h1>
-        <p class="role"><span class="sr-only">Data analyst building ML models, data pipelines and dashboards that teams act on.</span><span aria-hidden="true">Data analyst building <span class="rotator"><span class="word">ML models</span></span><br>that teams act on.</span></p>
+        <p class="role"><span class="sr-only">Data analyst building ML models, data pipelines and dashboards that teams act on.</span><span aria-hidden="true">Data analyst building <span class="rotator"><span class="word">ML models</span><span class="caret"></span></span><br>that teams act on.</span></p>
         <p class="intro">Two years across travel-tech, medtech and cleantech. I've shipped a real-time scoring model serving 30M requests a day, an AI radiology product deployed into hospital workflows, and growth experiments that halved customer acquisition cost.</p>
         <div class="contact-row">
           <a class="btn primary" href="https://www.linkedin.com/in/ishita1911" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -329,6 +360,12 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
         </dl>
       </aside>
     </div>
+    <div class="ticker" aria-label="Skills">
+    <div class="ticker-track">
+      <ul><li class="hl">Python</li><li>SQL</li><li class="hl">PyTorch</li><li>scikit-learn</li><li>Dask</li><li>FastAPI</li><li>Prefect</li><li class="hl">LangGraph</li><li class="hl">Power BI</li><li>Tableau</li><li>Looker Studio</li><li>QuickSight</li><li>Streamlit</li><li>ClickHouse</li><li>DuckDB</li><li>BigQuery</li><li>AWS SageMaker</li><li>SQL Server</li><li>PostgreSQL</li><li>Docker</li><li class="hl">A/B testing</li><li class="hl">Computer vision</li><li>NLP sentiment</li><li class="hl">Forecasting</li><li>Gradient boosting</li><li>LTV &amp; cohorts</li></ul>
+      <ul aria-hidden="true"><li class="hl">Python</li><li>SQL</li><li class="hl">PyTorch</li><li>scikit-learn</li><li>Dask</li><li>FastAPI</li><li>Prefect</li><li class="hl">LangGraph</li><li class="hl">Power BI</li><li>Tableau</li><li>Looker Studio</li><li>QuickSight</li><li>Streamlit</li><li>ClickHouse</li><li>DuckDB</li><li>BigQuery</li><li>AWS SageMaker</li><li>SQL Server</li><li>PostgreSQL</li><li>Docker</li><li class="hl">A/B testing</li><li class="hl">Computer vision</li><li>NLP sentiment</li><li class="hl">Forecasting</li><li>Gradient boosting</li><li>LTV &amp; cohorts</li></ul>
+    </div>
+  </div>
   </section>
 
   <!-- ===================== WORK ===================== -->
@@ -824,27 +861,28 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
     let dec = (m[0].split('.')[1] || '').length;
     if (!dec && to < 10 && !el.dataset.from) dec = 1;
     const pre = final.slice(0, m.index), post = final.slice(m.index + m[0].length);
-    tween(1300, (e) => { el.textContent = pre + (from + (to - from) * e).toFixed(dec) + post; }, () => { el.textContent = final; });
+    tween(1800, (e) => { el.textContent = pre + (from + (to - from) * e).toFixed(dec) + post; }, () => { el.textContent = final; });
   }
   setTimeout(() => document.querySelectorAll('.ledger [data-count]').forEach(countUp), 650);
 
-  /* ---- rotating word in the hero ---- */
+  /* ---- typewriter word in the hero ---- */
   const word = document.querySelector('.rotator .word');
   if (word && !reduce) {
-    const words = ['ML models', 'data pipelines', 'dashboards', 'A/B experiments'];
-    let i = 0;
-    setInterval(() => {
-      if (document.hidden) return;
-      word.classList.add('out');
-      setTimeout(() => {
-        i = (i + 1) % words.length;
-        word.textContent = words[i];
-        word.classList.remove('out');
-        word.classList.add('in');
-        void word.offsetWidth;
-        word.classList.remove('in');
-      }, 450);
-    }, 2600);
+    const words = ['ML models', 'data pipelines', 'dashboards', 'A/B experiments', 'forecasts'];
+    let wi = 0;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    (async function run() {
+      await sleep(1800);
+      for (;;) {
+        const cur = words[wi];
+        for (let i = cur.length; i >= 0; i--) { word.textContent = cur.slice(0, i); await sleep(38); }
+        wi = (wi + 1) % words.length;
+        const next = words[wi];
+        await sleep(200);
+        for (let i = 1; i <= next.length; i++) { word.textContent = next.slice(0, i); await sleep(75); }
+        await sleep(1700);
+      }
+    })();
   }
 
   /* ---- scroll reveal (only for things below the first screen) ---- */
@@ -911,7 +949,7 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
   const canvas = document.querySelector('.hero-field');
   if (hero && canvas && canvas.getContext) {
     const ctx = canvas.getContext('2d');
-    const GAP = 26, RADIUS = 160;
+    const GAP = 24, RADIUS = 180;
     let w = 0, h = 0, colors = { dot: '#566176', acc: '#2446D6' }, visible = true;
     const mouse = { x: -9999, y: -9999 };
     function readColors() {
@@ -930,9 +968,9 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
       for (let y = GAP / 2; y < h; y += GAP) {
         for (let x = GAP / 2; x < w; x += GAP) {
           const wave = (Math.sin(t * 0.0009 + x * 0.011 - y * 0.007) + 1) / 2;
-          let a = 0.07 + wave * 0.13, r = 1.1, c = colors.dot;
+          let a = 0.10 + wave * 0.30, r = 1.2 + wave * 0.5, c = wave > 0.78 ? colors.acc : colors.dot;
           const d = Math.hypot(x - mouse.x, y - mouse.y);
-          if (d < RADIUS) { const k = 1 - d / RADIUS; a += k * 0.42; r += k * 1.7; c = colors.acc; }
+          if (d < RADIUS) { const k = 1 - d / RADIUS; a += k * 0.5; r += k * 2.2; c = colors.acc; }
           ctx.globalAlpha = a; ctx.fillStyle = c;
           ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
         }
