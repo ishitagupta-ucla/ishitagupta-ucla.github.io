@@ -70,13 +70,24 @@ a { color: var(--accent); text-underline-offset: 3px; }
 }
 
 /* ---------- top bar ---------- */
-.topbar { border-bottom: 1px solid var(--line); }
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 15;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  -webkit-backdrop-filter: saturate(140%) blur(10px); backdrop-filter: saturate(140%) blur(10px);
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 16; background: var(--bg); }
+.progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
+section[id], main[id] { scroll-margin-top: 72px; }
 .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
 .mark { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
 .mark span { color: var(--accent); }
 .topnav { display: flex; gap: 20px; flex-wrap: wrap; }
 .topnav a { color: var(--muted); text-decoration: none; font-size: 0.92rem; font-weight: 500; }
-.topnav a:hover { color: var(--ink); }
+.topnav a { position: relative; transition: color .2s ease; }
+.topnav a:hover, .topnav a[aria-current="true"] { color: var(--ink); }
+.topnav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; border-radius: 2px; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; transition: transform .3s ease; }
+.topnav a[aria-current="true"]::after { transform: scaleX(1); }
 
 /* ---------- hero ---------- */
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px; padding-block: 64px 56px; align-items: center; }
@@ -207,6 +218,54 @@ button.chip:hover { border-color: var(--accent); color: var(--accent); }
 .contact-line button { font: 600 0.82rem var(--font-body); padding: 6px 12px; border-radius: 999px; border: 0; background: var(--bg); color: var(--ink); cursor: pointer; }
 footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
 
+/* ---------- motion ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.hero { position: relative; overflow: hidden; }
+.hero-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
+.hero .wrap { position: relative; z-index: 1; }
+.rotator { display: inline-block; color: var(--accent); white-space: nowrap; }
+.rotator .word { display: inline-block; transition: transform .45s cubic-bezier(.2,.7,.2,1), opacity .45s ease; }
+.rotator .word.out { transform: translateY(-0.45em); opacity: 0; }
+.rotator .word.in { transform: translateY(0.45em); opacity: 0; transition: none; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero .wrap > div > * { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
+  .hero .wrap > div > :nth-child(1) { animation-delay: .05s; }
+  .hero .wrap > div > :nth-child(2) { animation-delay: .14s; }
+  .hero .wrap > div > :nth-child(3) { animation-delay: .23s; }
+  .hero .wrap > div > :nth-child(4) { animation-delay: .32s; }
+  .hero .wrap > div > :nth-child(5) { animation-delay: .41s; }
+  .hero .ledger { animation: rise .9s cubic-bezier(.2,.7,.2,1) .3s both; }
+  .ledger .row { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+  .ledger .row:nth-child(1) { animation-delay: .45s; }
+  .ledger .row:nth-child(2) { animation-delay: .55s; }
+  .ledger .row:nth-child(3) { animation-delay: .65s; }
+  .ledger .row:nth-child(4) { animation-delay: .75s; }
+  .rv { translate: 0 28px; opacity: .35; transition: translate .8s cubic-bezier(.2,.7,.2,1), opacity .8s ease; transition-delay: var(--d, 0s); }
+  .rv.in { translate: 0 0; opacity: 1; }
+  .work.pop { animation: pop .45s cubic-bezier(.2,.7,.2,1) both; }
+}
+.work { position: relative; overflow: hidden; transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
+.work > * { position: relative; z-index: 1; }
+.work::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .3s ease;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 13%, transparent), transparent 65%);
+}
+.work:hover::before { opacity: 1; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .work:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--ink) 55%, transparent); }
+  .result { transition: transform .25s ease; }
+  .work:hover .result { transform: translateY(-1px); }
+  .btn { transition: transform .2s ease, border-color .2s ease, filter .2s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  button.chip { transition: transform .2s ease, border-color .2s ease, color .2s ease; }
+  button.chip:hover { transform: translateY(-2px); }
+}
+.tools li { transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+.tools li.hit { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
   .hero .wrap, .contact .wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; }
@@ -230,6 +289,7 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
 
 
 <header class="topbar">
+  <div class="progress" aria-hidden="true"></div>
   <div class="wrap">
     <a class="mark" href="#top">IG<span>.</span></a>
     <nav class="topnav" aria-label="Sections">
@@ -244,11 +304,12 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
 
 <main id="top">
   <section class="hero">
+    <canvas class="hero-field" aria-hidden="true"></canvas>
     <div class="wrap">
       <div>
         <p class="eyebrow">MS Business Analytics · UCLA Anderson · Dec 2027</p>
         <h1>Ishita Gupta</h1>
-        <p class="role">Data analyst building <em>ML models</em>, <em>data pipelines</em> and <em>dashboards</em> that teams act on.</p>
+        <p class="role"><span class="sr-only">Data analyst building ML models, data pipelines and dashboards that teams act on.</span><span aria-hidden="true">Data analyst building <span class="rotator"><span class="word">ML models</span></span><br>that teams act on.</span></p>
         <p class="intro">Two years across travel-tech, medtech and cleantech. I've shipped a real-time scoring model serving 30M requests a day, an AI radiology product deployed into hospital workflows, and growth experiments that halved customer acquisition cost.</p>
         <div class="contact-row">
           <a class="btn primary" href="https://www.linkedin.com/in/ishita1911" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -261,10 +322,10 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
       <aside class="ledger" aria-labelledby="ledger-title">
         <h2 id="ledger-title">Impact, in numbers</h2>
         <dl>
-          <div class="row"><dt>Annual revenue from a waitlist confirmation model at ixigo</dt><dd>~$1M</dd></div>
-          <div class="row"><dt>Customer acquisition cost after cashback experiments</dt><dd>$8 <span class="arrow">→</span> $4</dd></div>
-          <div class="row"><dt>Annual marketing savings from an LTV pipeline</dt><dd>~$400K</dd></div>
-          <div class="row"><dt>Chest X-rays processed by RadioIQ</dt><dd>300K+</dd></div>
+          <div class="row"><dt>Annual revenue from a waitlist confirmation model at ixigo</dt><dd data-count>~$1M</dd></div>
+          <div class="row"><dt>Customer acquisition cost after cashback experiments</dt><dd>$8 <span class="arrow">→</span> $<span data-count data-from="8">4</span></dd></div>
+          <div class="row"><dt>Annual marketing savings from an LTV pipeline</dt><dd data-count>~$400K</dd></div>
+          <div class="row"><dt>Chest X-rays processed by RadioIQ</dt><dd data-count>300K+</dd></div>
         </dl>
       </aside>
     </div>
@@ -304,8 +365,8 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
                 <div><dt>What I built</dt><dd>A real-time GBDT model trained on terabytes of historical bookings with Dask, tuned for precision to keep false "will confirm" predictions low.</dd></div>
               </dl>
               <div class="results">
-                <div class="result"><span class="v">&lt;30 ms</span><span class="l">latency, down from 100 ms, at 30M requests/day</span></div>
-                <div class="result"><span class="v">~$1M</span><span class="l">annual revenue from a 4% booking uplift</span></div>
+                <div class="result"><span class="v" data-count data-from="100">&lt;30 ms</span><span class="l">latency, down from 100 ms, at 30M requests/day</span></div>
+                <div class="result"><span class="v" data-count>~$1M</span><span class="l">annual revenue from a 4% booking uplift</span></div>
               </div>
               <ul class="tools"><li>Python</li><li>GBDT</li><li>Dask</li></ul>
             </article>
@@ -317,8 +378,8 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
                 <div><dt>What I built</dt><dd>Analysis of 5+ A/B tests on cashback amount, expiry and usage limits with Product and Growth, leading to a $1 cashback on a $12 average ticket.</dd></div>
               </dl>
               <div class="results">
-                <div class="result"><span class="v">$8 → $4</span><span class="l">customer acquisition cost</span></div>
-                <div class="result"><span class="v">+20%</span><span class="l">new-user bookings</span></div>
+                <div class="result"><span class="v">$8 → $<span data-count data-from="8">4</span></span><span class="l">customer acquisition cost</span></div>
+                <div class="result"><span class="v" data-count>+20%</span><span class="l">new-user bookings</span></div>
               </div>
               <ul class="tools"><li>A/B testing</li><li>SQL</li><li>Python</li></ul>
             </article>
@@ -330,8 +391,8 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
                 <div><dt>What I built</dt><dd>With Growth and Finance leadership, defined P&amp;L, retention-cohort and LTV metrics, then built a real-time pipeline and Streamlit dashboard so spend could be targeted by cohort.</dd></div>
               </dl>
               <div class="results">
-                <div class="result"><span class="v">~$400K</span><span class="l">annual marketing savings</span></div>
-                <div class="result"><span class="v">32M+</span><span class="l">transactions across 4.8M+ users</span></div>
+                <div class="result"><span class="v" data-count>~$400K</span><span class="l">annual marketing savings</span></div>
+                <div class="result"><span class="v" data-count>32M+</span><span class="l">transactions across 4.8M+ users</span></div>
               </div>
               <ul class="tools"><li>SQL</li><li>Python</li><li>DuckDB</li><li>Prefect</li><li>Streamlit</li></ul>
             </article>
@@ -343,8 +404,8 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
                 <div><dt>What I built</dt><dd>Real-time funnel dashboards tracking conversion and drop-offs, plus daily auto-refreshing Excel and Slack reports.</dd></div>
               </dl>
               <div class="results">
-                <div class="result"><span class="v">3 hrs → 15 min</span><span class="l">reporting time</span></div>
-                <div class="result"><span class="v">~90%</span><span class="l">less time on reporting</span></div>
+                <div class="result"><span class="v">3 hrs → <span data-count data-from="180">15</span> min</span><span class="l">reporting time</span></div>
+                <div class="result"><span class="v" data-count>~90%</span><span class="l">less time on reporting</span></div>
               </div>
               <ul class="tools"><li>ClickHouse</li><li>CleverTap</li><li>QuickSight</li><li>Excel</li><li>Slack</li></ul>
             </article>
@@ -366,9 +427,9 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
               </dl>
               <div class="side">
                 <div class="results">
-                  <div class="result"><span class="v">94%</span><span class="l">accuracy across 14 abnormalities</span></div>
+                  <div class="result"><span class="v" data-count>94%</span><span class="l">accuracy across 14 abnormalities</span></div>
                   <div class="result"><span class="v">&gt;92% / &gt;94%</span><span class="l">sensitivity / specificity</span></div>
-                  <div class="result"><span class="v">~$40K</span><span class="l">per 3-year enterprise contract</span></div>
+                  <div class="result"><span class="v" data-count>~$40K</span><span class="l">per 3-year enterprise contract</span></div>
                 </div>
                 <ul class="tools"><li>Python</li><li>RT-DETR</li><li>PSPNet</li><li>ResNet50</li><li>Grad-CAM++</li><li>FastAPI</li><li>AWS S3</li></ul>
               </div>
@@ -390,8 +451,8 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
                 <div><dt>What I built</dt><dd>A forecast on 5+ years of price history, adding NLP sentiment from news articles and impact-lag features that capture how news reaches prices with a delay.</dd></div>
               </dl>
               <div class="results">
-                <div class="result"><span class="v">−8%</span><span class="l">forecast error</span></div>
-                <div class="result"><span class="v">10K+</span><span class="l">news articles scored for sentiment</span></div>
+                <div class="result"><span class="v" data-count>−8%</span><span class="l">forecast error</span></div>
+                <div class="result"><span class="v" data-count>10K+</span><span class="l">news articles scored for sentiment</span></div>
               </div>
               <ul class="tools"><li>Python</li><li>NLP</li><li>Time series</li></ul>
             </article>
@@ -403,7 +464,7 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
                 <div><dt>What I built</dt><dd>A Power BI dashboard with automated SQL Server ingestion, so Procurement and Strategy could track market and supplier trends in one place.</dd></div>
               </dl>
               <div class="results">
-                <div class="result"><span class="v">100K+</span><span class="l">import-export records analyzed</span></div>
+                <div class="result"><span class="v" data-count>100K+</span><span class="l">import-export records analyzed</span></div>
                 <div class="result"><span class="v">Automated</span><span class="l">data ingestion from SQL Server</span></div>
               </div>
               <ul class="tools"><li>Power BI</li><li>SQL Server</li><li>SQL</li></ul>
@@ -426,7 +487,7 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
               </dl>
               <div class="side">
                 <div class="results">
-                  <div class="result"><span class="v">12</span><span class="l">thoracic pathologies classified</span></div>
+                  <div class="result"><span class="v" data-count>12</span><span class="l">thoracic pathologies classified</span></div>
                   <div class="result"><span class="v">2 models</span><span class="l">classification + detection in one agent</span></div>
                   <div class="result"><span class="v">Multi-turn</span><span class="l">conversational memory</span></div>
                 </div>
@@ -649,13 +710,23 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
     }
   }
 
+  function showCard(c, show) {
+    c.hidden = !show;
+    if (show) {
+      c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop');
+      c.addEventListener('animationend', () => c.classList.remove('pop'), { once: true });
+    }
+  }
+  function clearHits() { document.querySelectorAll('.tools li.hit').forEach((li) => li.classList.remove('hit')); }
+
   function applyCategory(cat) {
     let n = 0;
     cards.forEach((c) => {
       const show = cat === 'all' || (c.dataset.cat || '').split(' ').includes(cat);
-      c.hidden = !show;
+      showCard(c, show);
       if (show) n++;
     });
+    clearHits();
     filters.forEach((f) => f.setAttribute('aria-pressed', String(f.dataset.filter === cat)));
     syncGroups();
     if (cat === 'all') setStatus(n, 'Showing all {n} projects', false);
@@ -666,7 +737,8 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
     let n = 0;
     cards.forEach((c) => {
       const show = toolsOf(c).includes(tool);
-      c.hidden = !show;
+      showCard(c, show);
+      c.querySelectorAll('.tools li').forEach((li) => li.classList.toggle('hit', li.textContent.trim() === tool));
       if (show) n++;
     });
     filters.forEach((f) => f.setAttribute('aria-pressed', 'false'));
@@ -723,6 +795,160 @@ footer.foot { padding-block: 22px; font-size: 0.82rem; color: var(--muted); }
       } catch (e) { fallback(); }
     });
   });
+})();
+</script>
+
+<script>
+(function () {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasIO = 'IntersectionObserver' in window;
+
+  /* ---- count-up numbers (final text is in the HTML; this only animates toward it) ---- */
+  function tween(ms, fn, done) {
+    const t0 = performance.now();
+    function step(t) {
+      const k = Math.min(1, (t - t0) / ms);
+      fn(1 - Math.pow(1 - k, 3));
+      if (k < 1) requestAnimationFrame(step); else if (done) done();
+    }
+    requestAnimationFrame(step);
+  }
+  function countUp(el) {
+    if (reduce || el.dataset.counted) return;
+    el.dataset.counted = '1';
+    const final = el.textContent;
+    const m = final.match(/\d+(?:\.\d+)?/);
+    if (!m) return;
+    const to = parseFloat(m[0]);
+    const from = el.dataset.from ? parseFloat(el.dataset.from) : 0;
+    let dec = (m[0].split('.')[1] || '').length;
+    if (!dec && to < 10 && !el.dataset.from) dec = 1;
+    const pre = final.slice(0, m.index), post = final.slice(m.index + m[0].length);
+    tween(1300, (e) => { el.textContent = pre + (from + (to - from) * e).toFixed(dec) + post; }, () => { el.textContent = final; });
+  }
+  setTimeout(() => document.querySelectorAll('.ledger [data-count]').forEach(countUp), 650);
+
+  /* ---- rotating word in the hero ---- */
+  const word = document.querySelector('.rotator .word');
+  if (word && !reduce) {
+    const words = ['ML models', 'data pipelines', 'dashboards', 'A/B experiments'];
+    let i = 0;
+    setInterval(() => {
+      if (document.hidden) return;
+      word.classList.add('out');
+      setTimeout(() => {
+        i = (i + 1) % words.length;
+        word.textContent = words[i];
+        word.classList.remove('out');
+        word.classList.add('in');
+        void word.offsetWidth;
+        word.classList.remove('in');
+      }, 450);
+    }, 2600);
+  }
+
+  /* ---- scroll reveal (only for things below the first screen) ---- */
+  if (hasIO && !reduce) {
+    const targets = document.querySelectorAll('.section-head, .group-head, .work, .timeline li, .kit-group, .card, .lead-list li, .contact .wrap > *');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    targets.forEach((el) => {
+      if (el.getBoundingClientRect().top < window.innerHeight) return;
+      const sibs = Array.from(el.parentElement.children);
+      el.style.setProperty('--d', ((sibs.indexOf(el) % 4) * 0.08) + 's');
+      el.classList.add('rv');
+      io.observe(el);
+    });
+  }
+
+  /* ---- result tiles count up when their card comes into view ---- */
+  if (hasIO) {
+    const io2 = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        en.target.querySelectorAll('[data-count]').forEach(countUp);
+        io2.unobserve(en.target);
+      });
+    }, { threshold: 0.35 });
+    document.querySelectorAll('.work').forEach((c) => io2.observe(c));
+  }
+
+  /* ---- spotlight that follows the pointer on project cards ---- */
+  document.querySelectorAll('.work').forEach((c) => {
+    c.addEventListener('pointermove', (e) => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* ---- scroll progress + active section in the nav ---- */
+  const bar = document.querySelector('.progress');
+  function onScroll() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (bar) bar.style.setProperty('--p', max > 0 ? Math.min(1, window.scrollY / max) : 0);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  if (hasIO) {
+    const links = new Map(Array.from(document.querySelectorAll('.topnav a')).map((a) => [a.getAttribute('href').slice(1), a]));
+    const io3 = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        links.forEach((a, id) => a.setAttribute('aria-current', String(id === en.target.id)));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    links.forEach((a, id) => { const s = document.getElementById(id); if (s) io3.observe(s); });
+  }
+
+  /* ---- hero dot field: a slow wave across a data grid, brighter near the pointer ---- */
+  const hero = document.querySelector('.hero');
+  const canvas = document.querySelector('.hero-field');
+  if (hero && canvas && canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    const GAP = 26, RADIUS = 160;
+    let w = 0, h = 0, colors = { dot: '#566176', acc: '#2446D6' }, visible = true;
+    const mouse = { x: -9999, y: -9999 };
+    function readColors() {
+      const cs = getComputedStyle(document.documentElement);
+      colors = { dot: cs.getPropertyValue('--muted').trim() || colors.dot, acc: cs.getPropertyValue('--accent').trim() || colors.acc };
+    }
+    function size() {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const r = hero.getBoundingClientRect();
+      w = r.width; h = r.height;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+      for (let y = GAP / 2; y < h; y += GAP) {
+        for (let x = GAP / 2; x < w; x += GAP) {
+          const wave = (Math.sin(t * 0.0009 + x * 0.011 - y * 0.007) + 1) / 2;
+          let a = 0.07 + wave * 0.13, r = 1.1, c = colors.dot;
+          const d = Math.hypot(x - mouse.x, y - mouse.y);
+          if (d < RADIUS) { const k = 1 - d / RADIUS; a += k * 0.42; r += k * 1.7; c = colors.acc; }
+          ctx.globalAlpha = a; ctx.fillStyle = c;
+          ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+    function loop(t) { if (visible) draw(t); requestAnimationFrame(loop); }
+    readColors(); size();
+    window.addEventListener('resize', () => { size(); if (reduce) draw(0); });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readColors(); if (reduce) draw(0); });
+    new MutationObserver(() => { readColors(); if (reduce) draw(0); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    hero.addEventListener('pointermove', (e) => { const r = hero.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+    hero.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
+    if (hasIO) new IntersectionObserver((en) => { visible = en[0].isIntersecting; }).observe(hero);
+    if (reduce) draw(0); else requestAnimationFrame(loop);
+  }
 })();
 </script>
 
